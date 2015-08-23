@@ -28,10 +28,10 @@ You may now relate users to each other:
 ```php
 
 // Using the "requesting" user model...
-$kid = User::where('name', 'luke')->first();
+$dad = User::where('name', 'darth')->first();
 
 // ...and the one receiving the connection request...
-$dad = User::where('name', 'darth')->first();
+$kid = User::where('name', 'luke')->first();
 
 // may include "pivot" data.
 $dad->connect($kid, [
