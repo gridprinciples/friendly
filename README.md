@@ -67,3 +67,4 @@ make changes to a different relationship which would affect a loaded user's conn
 ```php
 $user->resetConnections();
 ```
+
