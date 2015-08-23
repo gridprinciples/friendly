@@ -1,0 +1,17 @@
+{
+    "name": "gridprinciples/connectable",
+    "autoload": {
+        "psr-4": {
+            "GridPrinciples\\Connectable\\": "src/"
+        }
+    },
+    "require-dev": {
+        "laravel/laravel": "^5.1",
+        "phpunit/phpunit": "4.*"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GridPrinciples\\Connectable\\Tests\\": "tests/"
+        }
+    }
+}
