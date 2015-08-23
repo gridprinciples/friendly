@@ -30,5 +30,10 @@ class ConnectableServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../../config/connectable.php' => config_path('connectable.php'),
         ], 'config');
+
+        // Publish migrations
+        $this->publishes([
+            __DIR__.'/../Migrations/' => database_path('migrations')
+        ], 'migrations');
     }
 }
