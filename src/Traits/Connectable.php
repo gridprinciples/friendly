@@ -3,6 +3,7 @@
 namespace GridPrinciples\Connectable\Traits;
 
 use GridPrinciples\Connectable\ConnectionPivot;
+use Illuminate\Database\Eloquent\Model;
 
 trait Connectable
 {
@@ -176,7 +177,7 @@ trait Connectable
         return $this->myConnections->merge($this->theirApprovedConnections);
     }
 
-    public function newPivot($parent, array $attributes, $table, $exists)
+    public function newPivot(Model $parent, array $attributes, $table, $exists)
     {
         return new ConnectionPivot($parent, $attributes, $table, $exists);
     }
