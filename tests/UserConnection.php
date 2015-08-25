@@ -16,13 +16,13 @@ class UserConnection extends UserTestCase
             'name' => 'William Riker',
         ]);
 
-        $captain->connect($first_officer);
+        $captain->befriend($first_officer);
         $first_officer->approve($captain);
 
-        $this->assertContains('William Riker', $captain->connections->lists('name'));
-        $this->assertContains('Jean-Luc Picard', $first_officer->connections->lists('name'));
+        $this->assertContains('William Riker', $captain->friends->lists('name'));
+        $this->assertContains('Jean-Luc Picard', $first_officer->friends->lists('name'));
 
-        $this->assertEquals('Carbon', class_basename($captain->connections->lists('created_at')->first()));
+        $this->assertEquals('Carbon', class_basename($captain->friends->lists('created_at')->first()));
     }
 
     public function test_user_connections_can_hold_title()
@@ -35,18 +35,18 @@ class UserConnection extends UserTestCase
             'name' => 'Robert',
         ]);
 
-        $parent->connect($kid, [
+        $parent->befriend($kid, [
             'name'       => 'Dad',
             'other_name' => 'Son',
         ]);
 
         $kid->approve($parent);
 
-        $this->assertContains('Son', $kid->connections->lists('pivot.name'));
-        $this->assertContains('Dad', $kid->connections->lists('pivot.other_name'));
+        $this->assertContains('Son', $kid->friends->lists('pivot.name'));
+        $this->assertContains('Dad', $kid->friends->lists('pivot.other_name'));
 
-        $this->assertContains('Dad', $parent->connections->lists('pivot.name'));
-        $this->assertContains('Son', $parent->connections->lists('pivot.other_name'));
+        $this->assertContains('Dad', $parent->friends->lists('pivot.name'));
+        $this->assertContains('Son', $parent->friends->lists('pivot.other_name'));
     }
 
     public function test_active_user_connections()
@@ -71,16 +71,16 @@ class UserConnection extends UserTestCase
             'name' => 'Syd Barrett',
         ]);
 
-        $band->connect($drummer);
-        $band->connect($bassist, [
+        $band->befriend($drummer);
+        $band->befriend($bassist, [
             'start' => '08-01-1967',
             'end'   => '01-01-2025',
         ]);
-        $band->connect($guitarist, [
+        $band->befriend($guitarist, [
             'start' => '12-01-1967',
             'end'   => '07-02-2005',
         ]);
-        $band->connect($singer, [
+        $band->befriend($singer, [
             'end' => '01-01-1968',
         ]);
 
@@ -89,7 +89,7 @@ class UserConnection extends UserTestCase
         $guitarist->approve($band);
         $singer->approve($band);
 
-        $activeMembers = $band->active_connections->lists('name');
+        $activeMembers = $band->current_friends->lists('name');
 
         $this->assertContains('Nick Mason', $activeMembers);
         $this->assertContains('Roger Waters', $activeMembers);
@@ -107,18 +107,18 @@ class UserConnection extends UserTestCase
             'name' => 'Darth',
         ]);
 
-        $parent->connect($kid, [
+        $parent->befriend($kid, [
             'name'       => 'Father',
             'other_name' => 'Son',
         ]);
 
         $kid->approve($parent);
-        $kid->disconnect($parent);
+        $kid->block($parent);
 
-        $parent->resetConnections();
+        $parent->resetFriends();
 
-        $this->seeInDatabase('connections', ['name' => 'Father']);
-        $this->assertNotContains('Darth', $kid->connections->lists('name'));
-        $this->assertNotContains('Luke', $parent->connections->lists('name'));
+        $this->seeInDatabase('friends', ['name' => 'Father']);
+        $this->assertNotContains('Darth', $kid->friends->lists('name'));
+        $this->assertNotContains('Luke', $parent->friends->lists('name'));
     }
 }

@@ -2,10 +2,10 @@
 
 namespace GridPrinciples\Connectable\Traits;
 
-use GridPrinciples\Connectable\ConnectionPivot;
+use GridPrinciples\Connectable\FriendPivot;
 use Illuminate\Database\Eloquent\Model;
 
-trait Connectable
+trait Friendable
 {
     /**
      * Connect the parent model with another model, AKA "send friend request".
@@ -14,9 +14,9 @@ trait Connectable
      * @param array $pivot
      * @return mixed
      */
-    public function connect($model, $pivot = [])
+    public function befriend($model, $pivot = [])
     {
-        return $this->myConnections()->save($model, $pivot);
+        return $this->sentRequests()->save($model, $pivot);
     }
 
     /**
@@ -25,15 +25,15 @@ trait Connectable
      * @param $model
      * @return bool
      */
-    public function disconnect($model)
+    public function block($model)
     {
         $deletedAtLeastOne = false;
 
-        if ($this->connections->count()) {
-            foreach ($this->connections as $connection) {
-                if ($connection->getKey() == $model->id) {
-                    $connection->pivot->delete();
-                    $this->resetConnections();
+        if ($this->friends->count()) {
+            foreach ($this->friends as $friend) {
+                if ($friend->getKey() == $model->id) {
+                    $friend->pivot->delete();
+                    $this->resetFriends();
 
                     $deletedAtLeastOne = true;
                 }
@@ -53,12 +53,12 @@ trait Connectable
     {
         $approvedAtLeastOne = false;
 
-        if ($model->connections->count()) {
-            foreach ($model->connections as $connection) {
-                if ((int) $connection->getKey() === (int) $this->getKey()) {
-                    $connection->pivot->approved_at = new \Carbon\Carbon;
-                    $connection->pivot->save();
-                    $this->resetConnections();
+        if ($model->friends->count()) {
+            foreach ($model->friends as $friend) {
+                if ((int) $friend->getKey() === (int) $this->getKey()) {
+                    $friend->pivot->approved_at = new \Carbon\Carbon;
+                    $friend->pivot->save();
+                    $this->resetFriends();
 
                     $approvedAtLeastOne = true;
                 }
@@ -73,13 +73,13 @@ trait Connectable
      *
      * @return mixed
      */
-    public function getConnectionsAttribute()
+    public function getFriendsAttribute()
     {
-        if (!array_key_exists('connections', $this->relations)) {
+        if (!array_key_exists('friends', $this->relations)) {
             $this->loadConnections();
         }
 
-        return $this->getRelation('connections');
+        return $this->getRelation('friends');
     }
 
     /**
@@ -87,9 +87,9 @@ trait Connectable
      *
      * @return mixed
      */
-    public function getActiveConnectionsAttribute()
+    public function getCurrentFriendsAttribute()
     {
-        return $this->connections->filter(function ($item) {
+        return $this->friends->filter(function ($item) {
             $now = new \Carbon\Carbon;
 
             if(!$item->pivot->approved_at)
@@ -124,11 +124,11 @@ trait Connectable
      *
      * @return mixed
      */
-    public function myConnections()
+    public function sentRequests()
     {
-        return $this->belongsToMany(get_called_class(), 'connections', 'user_id', 'other_user_id')
+        return $this->belongsToMany(get_called_class(), 'friends', 'user_id', 'other_user_id')
             ->withPivot('name', 'other_name', 'start', 'end', 'approved_at')
-            ->whereNull('connections.deleted_at')
+            ->whereNull('friends.deleted_at')
             ->withTimestamps();
     }
 
@@ -137,23 +137,23 @@ trait Connectable
      *
      * @return mixed
      */
-    public function theirApprovedConnections()
+    public function receivedApprovedRequests()
     {
-        return $this->belongsToMany(get_called_class(), 'connections', 'other_user_id', 'user_id')
+        return $this->belongsToMany(get_called_class(), 'friends', 'other_user_id', 'user_id')
             ->withPivot('name', 'other_name', 'start', 'end', 'approved_at')
-            ->whereNull('connections.deleted_at')
-            ->whereNotNull('connections.approved_at')
+            ->whereNull('friends.deleted_at')
+            ->whereNotNull('friends.approved_at')
             ->withTimestamps();
     }
 
     /**
      * Reset the cached connections so they can be rebuilt next time they are requested.
      */
-    public function resetConnections()
+    public function resetFriends()
     {
-        unset($this->relations['connections']);
-        unset($this->relations['myConnections']);
-        unset($this->relations['theirApprovedConnections']);
+        unset($this->relations['friends']);
+        unset($this->relations['sentRequests']);
+        unset($this->relations['receivedApprovedRequests']);
     }
 
     /**
@@ -161,10 +161,10 @@ trait Connectable
      */
     protected function loadConnections()
     {
-        if (!array_key_exists('connections', $this->relations)) {
-            $connections = $this->mergeConnections();
+        if (!array_key_exists('friends', $this->relations)) {
+            $connections = $this->mergeMineAndRequestedFriends();
 
-            $this->setRelation('connections', $connections);
+            $this->setRelation('friends', $connections);
         }
     }
 
@@ -172,13 +172,13 @@ trait Connectable
      * Merge the result of two relationships.
      * @return mixed
      */
-    protected function mergeConnections()
+    protected function mergeMineAndRequestedFriends()
     {
-        return $this->myConnections->merge($this->theirApprovedConnections);
+        return $this->sentRequests->merge($this->receivedApprovedRequests);
     }
 
     public function newPivot(Model $parent, array $attributes, $table, $exists)
     {
-        return new ConnectionPivot($parent, $attributes, $table, $exists);
+        return new FriendPivot($parent, $attributes, $table, $exists);
     }
 }

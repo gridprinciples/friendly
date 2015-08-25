@@ -13,7 +13,7 @@ class DatabaseTables extends DatabaseTestCase
     public function test_tables_exist()
     {
         $expectedTables = [
-            'connections',
+            'friends',
         ];
 
         foreach ($expectedTables as $table) {

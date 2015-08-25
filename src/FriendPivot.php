@@ -5,7 +5,7 @@ namespace GridPrinciples\Connectable;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ConnectionPivot extends Pivot
+class FriendPivot extends Pivot
 {
     use SoftDeletes;
 

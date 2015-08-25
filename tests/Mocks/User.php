@@ -3,10 +3,10 @@
 namespace GridPrinciples\Connectable\Tests\Mocks;
 
 use App\User as BaseUser;
-use GridPrinciples\Connectable\Traits\Connectable;
+use GridPrinciples\Connectable\Traits\Friendable;
 
 class User extends BaseUser
 {
-    use Connectable;
+    use Friendable;
     protected $morphClass = 'GridPrinciples\Connectable\Tests\Mocks\User';
 }
