@@ -1,8 +1,8 @@
 <?php
 
-namespace GridPrinciples\Connectable\Tests;
+namespace GridPrinciples\Friendly\Tests;
 
-use GridPrinciples\Connectable\Tests\Cases\UserTestCase;
+use GridPrinciples\Friendly\Tests\Cases\UserTestCase;
 
 class UserConnection extends UserTestCase
 {

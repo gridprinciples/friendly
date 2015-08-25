@@ -1,8 +1,8 @@
 <?php
 
-namespace GridPrinciples\Connectable\Tests;
+namespace GridPrinciples\Friendly\Tests;
 
-use GridPrinciples\Connectable\Tests\Cases\DatabaseTestCase;
+use GridPrinciples\Friendly\Tests\Cases\DatabaseTestCase;
 use Illuminate\Support\Facades\Schema;
 
 class DatabaseTables extends DatabaseTestCase

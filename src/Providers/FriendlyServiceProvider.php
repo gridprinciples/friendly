@@ -1,11 +1,10 @@
 <?php
 
-namespace GridPrinciples\Connectable\Providers;
+namespace GridPrinciples\Friendly\Providers;
 
-use GridPrinciples\Connectable\Providers\ConnectableAuthProvider;
 use Illuminate\Support\ServiceProvider;
 
-class ConnectableServiceProvider extends ServiceProvider
+class FriendlyServiceProvider extends ServiceProvider
 {
     /**
      * Register the service provider.
@@ -15,7 +14,7 @@ class ConnectableServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../../config/connectable.php', 'connectable'
+            __DIR__.'/../../config/friendly.php', 'friendly'
         );
     }
 
@@ -28,7 +27,7 @@ class ConnectableServiceProvider extends ServiceProvider
     {
         // Publish configuration
         $this->publishes([
-            __DIR__.'/../../config/connectable.php' => config_path('connectable.php'),
+            __DIR__.'/../../config/friendly.php' => config_path('friendly.php'),
         ], 'config');
 
         // Publish migrations

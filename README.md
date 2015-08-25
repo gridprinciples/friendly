@@ -1,4 +1,4 @@
-# Connectable [![Build Status](https://travis-ci.org/gridprinciples/connectable.svg?branch=master)](https://travis-ci.org/gridprinciples/connectable)
+# Friendly [![Build Status](https://travis-ci.org/gridprinciples/friendly.svg?branch=master)](https://travis-ci.org/gridprinciples/friendly)
 
 A [Laravel 5.1](http://laravel.com/docs/5.1) package designed to enhance Eloquent users with connections between users,
 including approvals by both users and additional connection data.
@@ -9,10 +9,10 @@ the details however they require.
 ## Installation
 1. Run `composer require gridprinciples/connectable` from your project directory.
 1. Add the following to the `providers` array in `config/app.php`:  
-    `GridPrinciples\Connectable\Providers\ConnectableServiceProvider::class,`
+    `GridPrinciples\Friendly\Providers\ConnectableServiceProvider::class,`
 
 1. Publish the migrations and config file:  
-    `php artisan vendor:publish --provider="GridPrinciples\Connectable\Providers\ConnectableServiceProvider"`
+    `php artisan vendor:publish --provider="GridPrinciples\Friendly\Providers\ConnectableServiceProvider"`
     
 1. Run the migrations:  
     `php artisan migrate`  

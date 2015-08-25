@@ -1,8 +1,8 @@
 <?php
 
-namespace GridPrinciples\Connectable\Tests\Cases;
+namespace GridPrinciples\Friendly\Tests\Cases;
 
-use GridPrinciples\Connectable\Providers\ConnectableServiceProvider;
+use GridPrinciples\Friendly\Providers\FriendlyServiceProvider;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -19,7 +19,7 @@ abstract class TestCase extends BaseTestCase
         $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
         // Register our package's service provider
-        $app->register(ConnectableServiceProvider::class);
+        $app->register(FriendlyServiceProvider::class);
 
         return $app;
     }

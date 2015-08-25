@@ -1,8 +1,9 @@
 {
-    "name": "gridprinciples/connectable",
+    "name": "gridprinciples/friendly",
+    "description": "Friends system for users, on Laravel.",
     "autoload": {
         "psr-4": {
-            "GridPrinciples\\Connectable\\": "src/"
+            "GridPrinciples\\Friendly\\": "src/"
         }
     },
     "require-dev": {
@@ -11,7 +12,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "GridPrinciples\\Connectable\\Tests\\": "tests/"
+            "GridPrinciples\\Friendly\\Tests\\": "tests/"
         }
     }
 }

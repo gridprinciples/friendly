@@ -1,11 +1,11 @@
 <?php
 
-namespace GridPrinciples\Connectable\Traits;
+namespace GridPrinciples\Friendly\Traits;
 
-use GridPrinciples\Connectable\FriendPivot;
+use GridPrinciples\Friendly\FriendPivot;
 use Illuminate\Database\Eloquent\Model;
 
-trait Friendable
+trait Friendly
 {
     /**
      * Connect the parent model with another model, AKA "send friend request".
@@ -76,7 +76,7 @@ trait Friendable
     public function getFriendsAttribute()
     {
         if (!array_key_exists('friends', $this->relations)) {
-            $this->loadConnections();
+            $this->loadFriends();
         }
 
         return $this->getRelation('friends');
@@ -159,12 +159,10 @@ trait Friendable
     /**
      * Load and cache the connections.
      */
-    protected function loadConnections()
+    protected function loadFriends()
     {
         if (!array_key_exists('friends', $this->relations)) {
-            $connections = $this->mergeMineAndRequestedFriends();
-
-            $this->setRelation('friends', $connections);
+            $this->setRelation('friends', $this->mergeMineAndRequestedFriends());
         }
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace GridPrinciples\Connectable\Tests\Cases;
+namespace GridPrinciples\Friendly\Tests\Cases;
 
-use GridPrinciples\Connectable\Tests\Mocks\User;
+use GridPrinciples\Friendly\Tests\Mocks\User;
 
 abstract class UserTestCase extends DatabaseTestCase {
 
@@ -17,7 +17,7 @@ abstract class UserTestCase extends DatabaseTestCase {
         ];
         $attributes = array_merge($defaultAttributes, $attributes);
 
-        // Mock up the assumed workflow: the app's User model `use`s the Connectable trait.
+        // Mock up the assumed workflow: the app's User model `use`s the Friendly trait.
         $user = $this->getMockForAbstractClass($this->mockUserClass);
 
         $user->fill($attributes);

@@ -1,6 +1,6 @@
 <?php
 
-namespace GridPrinciples\Connectable;
+namespace GridPrinciples\Friendly;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;

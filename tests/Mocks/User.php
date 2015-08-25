@@ -1,12 +1,12 @@
 <?php
 
-namespace GridPrinciples\Connectable\Tests\Mocks;
+namespace GridPrinciples\Friendly\Tests\Mocks;
 
 use App\User as BaseUser;
-use GridPrinciples\Connectable\Traits\Friendable;
+use GridPrinciples\Friendly\Traits\Friendly;
 
 class User extends BaseUser
 {
-    use Friendable;
-    protected $morphClass = 'GridPrinciples\Connectable\Tests\Mocks\User';
+    use Friendly;
+    protected $morphClass = 'GridPrinciples\Friendly\Tests\Mocks\User';
 }
