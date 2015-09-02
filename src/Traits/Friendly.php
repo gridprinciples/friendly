@@ -172,7 +172,17 @@ trait Friendly
      */
     protected function mergeMineAndRequestedFriends()
     {
-        return $this->sentRequests->merge($this->receivedApprovedRequests);
+        $all = $this->sentRequests;
+
+        if($more = $this->receivedApprovedRequests->all())
+        {
+            foreach($more as $m)
+            {
+                $all->add($m);
+            }
+        }
+
+        return $all;
     }
 
     public function newPivot(Model $parent, array $attributes, $table, $exists)
